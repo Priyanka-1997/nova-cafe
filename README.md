@@ -17,59 +17,87 @@ If you are developing a production application, we recommend updating the config
 
 ```js
 export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+  # NOVA Cafe
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+  NOVA is a warm, editorial cafe and restaurant website built around seasonal
+  cooking, intimate dining, and unhurried evenings. The interface uses cinematic
+  food and interior photography, Playfair Display typography, and a cream,
+  charcoal, and copper visual palette.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+  ## Features
 
-```
+  - Full-screen hero with responsive navigation and reservation CTAs
+  - About NOVA story section
+  - INR-priced seasonal menu preview
+  - Responsive gallery using ten NOVA photography assets
+  - Gallery starts with three images and expands to the full collection
+  - Reservation form with local confirmation state
+  - Contact and opening-hours footer
+  - Responsive layouts for mobile, tablet, and desktop
+  - Reduced-motion support for users who prefer less animation
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+  ## Tech Stack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+  - React 19
+  - TypeScript
+  - Vite
+  - Tailwind CSS 4
+  - ESLint
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+  ## Project Structure
 
-```
+  ```text
+  src/
+    assets/
+      images/       Restaurant and gallery photography
+      logo/         NOVA wordmark
+    components/
+      Navbar.tsx    Responsive navigation and booking CTA
+    sections/
+      Hero.tsx
+      About.tsx
+      Menu.tsx
+      Gallery.tsx
+      Reservation.tsx
+      Footer.tsx
+    App.tsx         Page composition
+    index.css       Theme tokens, typography, and shared utilities
+  ```
+
+  ## Getting Started
+
+  Requirements: Node.js 20 or newer and npm.
+
+  ```bash
+  npm install
+  npm run dev
+  ```
+
+  The development server will print the local URL, usually
+  `http://localhost:5173`.
+
+  ## Available Commands
+
+  ```bash
+  npm run dev       # Start the Vite development server
+  npm run lint      # Run ESLint
+  npm run build     # Type-check and create a production build
+  npm run preview   # Preview the production build locally
+  ```
+
+  ## Reservation Behavior
+
+  The reservation form currently demonstrates the user flow locally. Submitting
+  the form displays a confirmation state in the browser, but it does not send a
+  real booking request. A reservation provider or backend can be connected later.
+
+  ## Deployment
+
+  This is a standard Vite application and can be deployed to Vercel with the
+  Vercel CLI:
+
+  ```bash
+  vercel --prod
+  ```
+
+  The production build output is generated in `dist/` and is ignored by Git.
