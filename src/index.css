@@ -76,6 +76,58 @@ button {
   font-family: inherit;
 }
 
+.nova-date-input {
+  color-scheme: dark;
+  accent-color: var(--color-nova-brown-light);
+}
+
+.nova-date-input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.7;
+  filter: sepia(1) saturate(0.65) hue-rotate(320deg) brightness(1.4);
+  transition: opacity 200ms ease;
+}
+
+.nova-date-input::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+.nova-select {
+  position: relative;
+}
+
+.nova-select-arrow {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-right: 1px solid var(--color-nova-brown-light);
+  border-bottom: 1px solid var(--color-nova-brown-light);
+  transform: translateY(-25%) rotate(45deg);
+  transition: transform 200ms ease;
+}
+
+.nova-select::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0.25rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 1px solid var(--color-nova-brown-light);
+  border-bottom: 1px solid var(--color-nova-brown-light);
+  pointer-events: none;
+  transform: translateY(-70%) rotate(45deg);
+}
+
+.nova-select select {
+  appearance: none;
+  color-scheme: dark;
+}
+
+.nova-select option {
+  background: var(--color-nova-charcoal);
+  color: var(--color-nova-white);
+}
+
 ::selection {
   background: var(--color-nova-brown);
   color: white;

@@ -1,6 +1,52 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 
+type ThemedSelectProps = {
+  label: string;
+  value: string;
+  options: string[];
+  onChange: (value: string) => void;
+};
+
+function ThemedSelect({ label, value, options, onChange }: ThemedSelectProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="relative text-xs uppercase tracking-[0.14em] text-white/60">
+      {label}
+      <button
+        type="button"
+        aria-expanded={isOpen}
+        aria-haspopup="listbox"
+        onClick={() => setIsOpen((previous) => !previous)}
+        className="mt-3 flex w-full items-center justify-between border-b border-white/25 bg-transparent py-3 text-left text-base normal-case tracking-normal text-white outline-none transition-colors hover:border-white/50 focus:border-nova-brown-light"
+      >
+        <span>{value || "Select a time"}</span>
+        <span className={`nova-select-arrow ${isOpen ? "rotate-180" : ""}`} aria-hidden="true" />
+      </button>
+      {isOpen && (
+        <div role="listbox" className="absolute inset-x-0 top-full z-20 mt-2 overflow-hidden border border-nova-brown/60 bg-nova-charcoal shadow-2xl">
+          {options.map((option) => (
+            <button
+              key={option}
+              type="button"
+              role="option"
+              aria-selected={value === option}
+              onClick={() => {
+                onChange(option);
+                setIsOpen(false);
+              }}
+              className={`block w-full px-4 py-3 text-left text-sm normal-case tracking-normal transition-colors ${value === option ? "bg-nova-brown text-white" : "text-white/75 hover:bg-white/10 hover:text-white"}`}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 const initialForm = {
   name: "",
   email: "",
@@ -79,24 +125,20 @@ export default function Reservation() {
               </label>
               <label className="text-xs uppercase tracking-[0.14em] text-white/60">
                 Date
-                <input required type="date" value={form.date} onChange={(event) => updateField("date", event.target.value)} className="mt-3 block w-full border-b border-white/25 bg-transparent px-0 py-3 text-base normal-case tracking-normal text-white outline-none transition-colors focus:border-nova-brown-light" />
+                <input required type="date" value={form.date} onChange={(event) => updateField("date", event.target.value)} className="nova-date-input mt-3 block w-full border-b border-white/25 bg-transparent px-0 py-3 text-base normal-case tracking-normal text-white outline-none transition-colors focus:border-nova-brown-light" />
               </label>
-              <label className="text-xs uppercase tracking-[0.14em] text-white/60">
-                Time
-                <select required value={form.time} onChange={(event) => updateField("time", event.target.value)} className="mt-3 block w-full border-b border-white/25 bg-nova-charcoal px-0 py-3 text-base normal-case tracking-normal text-white outline-none transition-colors focus:border-nova-brown-light">
-                  <option value="" disabled>Select a time</option>
-                  <option>5:30 PM</option>
-                  <option>6:30 PM</option>
-                  <option>7:30 PM</option>
-                  <option>8:30 PM</option>
-                </select>
-              </label>
-              <label className="text-xs uppercase tracking-[0.14em] text-white/60">
-                Party size
-                <select value={form.partySize} onChange={(event) => updateField("partySize", event.target.value)} className="mt-3 block w-full border-b border-white/25 bg-nova-charcoal px-0 py-3 text-base normal-case tracking-normal text-white outline-none transition-colors focus:border-nova-brown-light">
-                  {["1", "2", "3", "4", "5", "6", "7+"] .map((size) => <option key={size} value={size}>{size} guests</option>)}
-                </select>
-              </label>
+              <ThemedSelect
+                label="Time"
+                value={form.time}
+                options={["5:30 PM", "6:30 PM", "7:30 PM", "8:30 PM"]}
+                onChange={(value) => updateField("time", value)}
+              />
+              <ThemedSelect
+                label="Party size"
+                value={`${form.partySize} guests`}
+                options={["1 guests", "2 guests", "3 guests", "4 guests", "5 guests", "6 guests", "7+ guests"]}
+                onChange={(value) => updateField("partySize", value.replace(" guests", ""))}
+              />
               <label className="text-xs uppercase tracking-[0.14em] text-white/60 sm:col-span-2">
                 Notes <span className="normal-case tracking-normal text-white/30">(optional)</span>
                 <textarea value={form.note} onChange={(event) => updateField("note", event.target.value)} rows={2} className="mt-3 block w-full resize-none border-b border-white/25 bg-transparent px-0 py-3 text-base normal-case tracking-normal text-white outline-none transition-colors placeholder:text-white/30 focus:border-nova-brown-light" placeholder="A birthday, dietary note, or anything we should know" />
